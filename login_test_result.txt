@@ -1,0 +1,14 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    96    0    29  100    67    244    564 --:--:-- --:--:-- --:--:--   813
+HTTP/2 401 
+server: nginx
+date: Tue, 17 Feb 2026 15:33:40 GMT
+content-type: application/json
+cache-control: private, must-revalidate
+pragma: no-cache
+expires: -1
+phpdebugbar-id: 01KHP3RPF0TF5A913RJD6Y0Y20
+access-control-allow-origin: *
+
+{"message":"Bad credentials"}
