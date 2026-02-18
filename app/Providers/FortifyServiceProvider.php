@@ -56,9 +56,10 @@ class FortifyServiceProvider extends ServiceProvider
             );
 
             // Debugging: Log the response to see what's happening
-            \Illuminate\Support\Facades\Log::info('iHRI Live Login Success:', [
+            \Illuminate\Support\Facades\Log::info('iHRI Live Login Attempt:', [
                 'email' => $request->email,
-                'response_keys' => array_keys($response)
+                'response_is_null' => is_null($response),
+                'response_keys' => is_array($response) ? array_keys($response) : 'N/A'
             ]);
 
             // Check if login was successful
@@ -89,6 +90,8 @@ class FortifyServiceProvider extends ServiceProvider
                 $token = $response['token'] ?? $response['access_token'] ?? $response['data']['token'] ?? $response['data']['access_token'] ?? null;
                 if ($token) {
                     session(['ihri_token' => $token]);
+                    // Trigger async sync using a Queue Job
+                    \App\Jobs\SyncIHRIJob::dispatch($token);
                 }
 
                 return $user;

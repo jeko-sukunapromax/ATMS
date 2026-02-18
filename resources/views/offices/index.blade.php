@@ -24,8 +24,7 @@
                                 </div>
                                 <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Active</span>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-2">{{ $office['name'] ?? 'Unknown Office' }}</h4>
-                            <p class="text-gray-500 text-sm mb-4">UUID: {{ $office['uuid'] ?? 'N/A' }}</p>
+                            <h4 class="text-lg font-bold text-gray-800 mb-6">{{ $office['name'] ?? 'Unknown Office' }}</h4>
                             <a href="{{ route('offices.show', $office['uuid'] ?? 0) }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium tracking-wide">
                                 View Employees
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

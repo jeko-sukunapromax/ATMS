@@ -33,6 +33,11 @@ Route::middleware([
     Route::post('audit-projects/{audit}/findings/{finding}/recommendations', [\App\Http\Controllers\RecommendationController::class, 'store'])->name('recommendations.store');
     Route::delete('audit-projects/{audit}/findings/{finding}/recommendations/{recommendation}', [\App\Http\Controllers\RecommendationController::class, 'destroy'])->name('recommendations.destroy');
 
-    // User Management Route (kebab-case)
+
+    // User Management Routes
     Route::get('user-management', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::post('user-management/sync', [\App\Http\Controllers\UserController::class, 'sync'])->name('users.sync');
+    Route::get('user-management/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::put('user-management/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+    Route::delete('user-management/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 });

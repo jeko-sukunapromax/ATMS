@@ -20,7 +20,7 @@ class IHRIService
     public function login(string $email, string $password)
     {
         try {
-            $response = Http::withoutVerifying()->post("{$this->baseUrl}/login", [
+            $response = Http::withoutVerifying()->timeout(180)->post("{$this->baseUrl}/login", [
                 'email' => $email,
                 'password' => $password,
             ]);
@@ -38,7 +38,7 @@ class IHRIService
     public function getEmployeesByOffice(string $officeUuid, string $token)
     {
         try {
-            $response = Http::withoutVerifying()->withToken($token)
+            $response = Http::withoutVerifying()->withToken($token)->timeout(180)
                 ->get("{$this->baseUrl}/all-employees/office/{$officeUuid}");
 
             return $response->json();
@@ -48,13 +48,10 @@ class IHRIService
         }
     }
 
-    /**
-     * Get permanent users
-     */
     public function getUsers(string $token)
     {
         try {
-            $response = Http::withoutVerifying()->withToken($token)
+            $response = Http::withoutVerifying()->withToken($token)->timeout(180)
                 ->get("{$this->baseUrl}/users");
 
             return $response->json();
@@ -70,7 +67,7 @@ class IHRIService
     public function getOffices(?string $token = null)
     {
         try {
-            $request = Http::withoutVerifying();
+            $request = Http::withoutVerifying()->timeout(180);
             
             if ($token) {
                 $request->withToken($token);

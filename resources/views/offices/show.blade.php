@@ -16,7 +16,6 @@
                 <div class="mb-6 flex justify-between items-center">
                     <div>
                         <h3 class="text-lg font-medium text-gray-900">Employees List</h3>
-                        <p class="text-sm text-gray-600">Office UUID: {{ $uuid }}</p>
                     </div>
                     <div class="bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-100">
                         <span class="text-indigo-700 font-bold text-lg">{{ count($employees) }}</span>

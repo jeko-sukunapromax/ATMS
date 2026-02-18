@@ -31,6 +31,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'position',
+        'office',
+        'ihri_uuid',
     ];
 
     /**
