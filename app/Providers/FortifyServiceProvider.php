@@ -59,27 +59,47 @@ class FortifyServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\Log::info('iHRI Live Login Attempt:', [
                 'email' => $request->email,
                 'response_is_null' => is_null($response),
-                'response_keys' => is_array($response) ? array_keys($response) : 'N/A'
+                'status' => $response['status'] ?? 'N/A'
             ]);
 
             // Check if login was successful
             $isSuccess = $response && (
                 isset($response['access_token']) || 
+                isset($response['token']) ||
                 (isset($response['status']) && strtolower($response['status']) === 'success') ||
                 (isset($response['success']) && $response['success'] === true)
             );
 
             if ($isSuccess) {
                 // Extract user data
-                $userData = $response['data']['user'] ?? $response['user'] ?? null;
-                $email = $request->email;
-                $name = $userData['name'] ?? $userData['username'] ?? explode('@', $email)[0];
+                $userData = $response['user'] ?? $response['data']['user'] ?? $response['data'] ?? null;
+                
+                // Fallback if userData is still null but response has user info at root
+                if (!$userData && (isset($response['email']) || isset($response['id']))) {
+                    $userData = $response;
+                }
+
+                $email = $userData['email'] ?? $request->email;
+                
+                // Get name from various possibilities
+                $name = $userData['name'] ?? null;
+                if (!$name) {
+                    $firstName = $userData['first_name'] ?? '';
+                    $lastName = $userData['last_name'] ?? '';
+                    $name = trim("$firstName $lastName");
+                }
+                if (!$name) {
+                    $name = explode('@', $email)[0];
+                }
+
+                $ihriUuid = $userData['uuid'] ?? $userData['id'] ?? null;
 
                 $user = \App\Models\User::updateOrCreate(
                     ['email' => $email],
                     [
                         'name' => $name,
                         'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+                        'ihri_uuid' => $ihriUuid,
                     ]
                 );
 

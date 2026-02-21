@@ -37,7 +37,7 @@ class SyncIHRI extends Command
         }
 
         Log::info('SyncIHRI: Fetching offices...');
-        $offices = $ihriService->getOffices();
+        $offices = $ihriService->getOffices($token);
 
         if (empty($offices)) {
             Log::warning('SyncIHRI: No offices found or API error.');
@@ -61,6 +61,9 @@ class SyncIHRI extends Command
             if (!$response) {
                 $this->warn("No response for office: {$office['name']}");
                 continue;
+            }
+            if ($syncCount === 0) {
+                Log::info("Sample response format for office: " . json_encode($response));
             }
 
             $employees = null;
@@ -149,21 +152,54 @@ class SyncIHRI extends Command
             $name = $username ?? explode('@', $email)[0] ?? 'Unknown User';
         }
 
-        $position = $data['position_name'] ?? $data['position'] ?? $data['plantilla']['name'] ?? 'EMPLOYEE';
+        // Determine Position
+        $position = 'EMPLOYEE';
+        if (isset($data['on_the_job_training']) || isset($data['onTheJobTraining'])) {
+            $position = 'OJT';
+        } elseif (isset($data['position_name'])) {
+            $position = $data['position_name'];
+        } elseif (isset($data['position'])) {
+            $position = $data['position'];
+        } elseif (isset($data['plantilla']['name'])) {
+            $position = $data['plantilla']['name'];
+        }
 
-        // Check if user already exists
-        $existingUser = User::where('email', $email)->orWhere('ihri_uuid', $ihriUuid)->first();
+        // Try to find the user by ihri_uuid first, then email
+        $existingUser = null;
+        if ($ihriUuid) {
+            $existingUser = User::where('ihri_uuid', $ihriUuid)->first();
+        }
+        if (!$existingUser && $email) {
+            $existingUser = User::where('email', $email)->first();
+        }
 
-        $user = User::updateOrCreate(
-            ['email' => $email],
-            [
+        $officeForDb = $officeName ?? $data['office']['name'] ?? null;
+
+        if ($existingUser) {
+            // Update existing user
+            // Prevent overwriting a real email with a generated fake email
+            $isFakeEmail = str_ends_with($email, '@ihri.local');
+            $newEmail = (!$isFakeEmail && $email) ? $email : $existingUser->email;
+            
+            $existingUser->update([
                 'name' => $name,
-                'password' => $existingUser ? $existingUser->password : Hash::make('password123'),
                 'position' => $position,
-                'office' => $officeName ?? $data['office']['name'] ?? null,
+                'office' => $officeForDb ?? $existingUser->office,
+                'ihri_uuid' => $ihriUuid ?? $existingUser->ihri_uuid,
+                'email' => $newEmail,
+            ]);
+            $user = $existingUser;
+        } else {
+            // Create new
+            $user = User::create([
+                'email' => $email,
+                'name' => $name,
+                'password' => Hash::make('password123'),
+                'position' => $position,
+                'office' => $officeForDb,
                 'ihri_uuid' => $ihriUuid,
-            ]
-        );
+            ]);
+        }
 
         // Assign default role if none
         if ($user->roles->isEmpty()) {

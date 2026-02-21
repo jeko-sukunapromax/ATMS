@@ -23,8 +23,8 @@
                 @csrf
 
                 <div class="relative">
-                    <x-label for="email" value="{{ __('Email Address') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
-                    <x-input id="email" class="block mt-1 w-full bg-gray-50 border-gray-100 rounded-2xl focus:ring-blue-500 focus:border-blue-500 p-4 transition-all duration-300" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="name@example.com" />
+                    <x-label for="email" value="{{ __('Email or Username') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
+                    <x-input id="email" class="block mt-1 w-full bg-gray-50 border-gray-100 rounded-2xl focus:ring-blue-500 focus:border-blue-500 p-4 transition-all duration-300" type="text" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Enter your email or username" />
                 </div>
 
                 <div class="mt-6 relative">
