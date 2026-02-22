@@ -1,61 +1,87 @@
 <x-guest-layout>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-tr from-slate-50 via-white to-blue-50">
-        <div class="w-full sm:max-w-md mt-6 px-8 py-10 bg-white shadow-2xl shadow-blue-100/50 sm:rounded-3xl border border-blue-50">
+    <!-- Background Image and Overlays -->
+    <div class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop');">
+        <!-- Colored overlay for the maroon/reddish tint -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#6b2c2c]/95 to-[#8A3B3B]/80 mix-blend-multiply"></div>
+        <!-- Blur effect -->
+        <div class="absolute inset-0 backdrop-blur-[6px]"></div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="relative z-10 min-h-screen flex items-center justify-center p-4 sm:p-8">
+        <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24">
             
-            <div class="mb-10">
-                <x-authentication-card-logo />
+            <!-- Left Side Logo -->
+            <div class="hidden lg:flex w-full lg:w-1/2 justify-end pr-4">
+                <img src="{{ asset('images/logo.png') }}?v={{ time() }}" alt="Bayambang Seal" class="w-80 h-auto drop-shadow-[0_0_30px_rgba(0,0,0,0.5)] transform hover:scale-105 transition duration-500">
             </div>
 
-            <div class="mb-8 text-center">
-                <h2 class="text-3xl font-black text-gray-900 tracking-tight">Welcome Back</h2>
-                <p class="text-gray-400 font-medium mt-1">Audit Tracking & Management System</p>
-            </div>
-
-            <x-validation-errors class="mb-4" />
-
-            @if (session('status'))
-                <div class="mb-4 font-medium text-sm text-green-600">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-
-                <div class="relative">
-                    <x-label for="email" value="{{ __('Email or Username') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
-                    <x-input id="email" class="block mt-1 w-full bg-gray-50 border-gray-100 rounded-2xl focus:ring-blue-500 focus:border-blue-500 p-4 transition-all duration-300" type="text" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Enter your email or username" />
+            <!-- Right Side Form & Titles -->
+            <div class="w-full lg:w-1/2 max-w-[450px]">
+                
+                <!-- Title Top Right -->
+                <div class="text-center lg:text-right mb-8">
+                    <!-- Mobile logo -->
+                    <div class="lg:hidden flex justify-center mb-8">
+                        <img src="{{ asset('images/logo.png') }}?v={{ time() }}" alt="Bayambang Seal" class="w-48 drop-shadow-2xl">
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-4xl font-medium text-white tracking-[0.1em] uppercase mb-1">
+                        Audit Tracking
+                    </h1>
+                    <h2 class="text-3xl sm:text-4xl font-medium text-[#FFD700] tracking-[0.1em] uppercase">
+                        Management System
+                    </h2>
                 </div>
 
-                <div class="mt-6 relative">
-                    <x-label for="password" value="{{ __('Password') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
-                    <x-input id="password" class="block mt-1 w-full bg-gray-50 border-gray-100 rounded-2xl focus:ring-blue-500 focus:border-blue-500 p-4 transition-all duration-300" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
-                </div>
+                <!-- Glassmorphism Form container -->
+                <div class="w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-8 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]">
+                    
+                    <x-validation-errors class="mb-4 p-4 bg-red-500/20 text-red-100 rounded-xl border border-red-500/30" />
 
-                <div class="flex items-center justify-between mt-6">
-                    <label for="remember_me" class="flex items-center">
-                        <x-checkbox id="remember_me" name="remember" class="rounded-md border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" />
-                        <span class="ms-2 text-sm font-bold text-gray-500">{{ __('Remember me') }}</span>
-                    </label>
-
-                    @if (Route::has('password.request'))
-                        <a class="text-sm font-bold text-blue-600 hover:text-blue-800 transition" href="{{ route('password.request') }}">
-                            {{ __('Forgot password?') }}
-                        </a>
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-400 bg-green-500/20 p-4 rounded-xl border border-green-500/30">
+                            {{ session('status') }}
+                        </div>
                     @endif
-                </div>
 
-                <div class="mt-10">
-                    <x-button class="w-full justify-center py-4 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 rounded-2xl text-white font-black text-sm tracking-widest shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all duration-300 border-none">
-                        {{ __('SIGN IN TO SYSTEM') }}
-                    </x-button>
-                </div>
-            </form>
+                    <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                        @csrf
 
-            <div class="mt-10 pt-8 border-t border-gray-50 text-center">
-                <p class="text-xs font-bold text-gray-300 uppercase tracking-widest">
-                    Security Policy: iHRI Integrated Authentication
-                </p>
+                        <div>
+                            <label for="email" class="block text-white text-sm font-semibold mb-2 ml-1">Email</label>
+                            <input id="email" type="text" name="email" :value="old('email')" required autofocus autocomplete="username" 
+                                class="w-full bg-white/20 border-white/20 focus:bg-white/30 focus:border-white/50 focus:ring-1 focus:ring-white rounded-xl px-5 py-4 text-white placeholder-white/70 transition-all outline-none backdrop-blur-sm" 
+                                placeholder="your@email.com">
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-white text-sm font-semibold mb-2 ml-1">Password</label>
+                            <input id="password" type="password" name="password" required autocomplete="current-password" 
+                                class="w-full bg-white/20 border-white/20 focus:bg-white/30 focus:border-white/50 focus:ring-1 focus:ring-white rounded-xl px-5 py-4 text-white placeholder-white/70 transition-all outline-none backdrop-blur-sm" 
+                                placeholder="••••••••">
+                        </div>
+
+                        <div class="flex items-center pt-2 ml-1">
+                            <input id="remember_me" type="checkbox" name="remember" class="w-4 h-4 rounded border-white/40 bg-white/20 text-[#FFD700] focus:ring-[#FFD700] focus:ring-offset-0 focus:ring-offset-transparent outline-none">
+                            <label for="remember_me" class="ml-3 text-sm text-white font-medium cursor-pointer">Remember me</label>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-6 border-transparent">
+                            @if (Route::has('password.request'))
+                                <a class="text-sm text-white hover:text-white underline underline-offset-4 decoration-white/50 transition-colors ml-1" href="{{ route('password.request') }}">
+                                    Forgot Password?
+                                </a>
+                            @else
+                                <span></span>
+                            @endif
+
+                            <button type="submit" class="bg-[#FFD700] hover:bg-[#E6C200] text-gray-900 px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-sm transition-transform hover:scale-105 shadow-[0_4px_15px_rgba(255,215,0,0.3)] border-none">
+                                LOG IN
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

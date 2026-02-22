@@ -103,7 +103,21 @@ class FortifyServiceProvider extends ServiceProvider
                     ]
                 );
 
-                if ($user->roles->isEmpty()) {
+                $roleStr = '';
+                if (isset($userData['roles']) && is_array($userData['roles'])) {
+                    foreach ($userData['roles'] as $r) {
+                        $roleStr .= is_array($r) ? ($r['name'] ?? '') : $r;
+                    }
+                }
+                if (isset($userData['role'])) {
+                    $roleStr .= is_array($userData['role']) ? ($userData['role']['name'] ?? '') : $userData['role'];
+                }
+
+                $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || (isset($userData['is_superadmin']) && $userData['is_superadmin']);
+
+                if ($isApiSuperAdmin) {
+                    $user->syncRoles(['superadmin']);
+                } elseif ($user->roles->isEmpty()) {
                     $user->assignRole('user');
                 }
 

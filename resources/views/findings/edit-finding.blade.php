@@ -19,14 +19,26 @@
                             <x-input-error for="title" class="mt-2" />
                         </div>
 
-                        <div>
-                            <x-label for="riskLevel" value="{{ __('Risk Level') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
-                            <select id="riskLevel" name="riskLevel" class="block w-full bg-gray-50 border-gray-100 rounded-2xl p-4 focus:ring-indigo-500 focus:border-indigo-500 transition-all cursor-pointer font-bold">
-                                <option value="low" {{ old('riskLevel', $finding->risk_level) == 'low' ? 'selected' : '' }}>LOW RISK</option>
-                                <option value="medium" {{ old('riskLevel', $finding->risk_level) == 'medium' ? 'selected' : '' }}>MEDIUM RISK</option>
-                                <option value="high" {{ old('riskLevel', $finding->risk_level) == 'high' ? 'selected' : '' }}>HIGH RISK</option>
-                            </select>
-                            <x-input-error for="riskLevel" class="mt-2" />
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <x-label for="riskLevel" value="{{ __('Risk Level') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
+                                <select id="riskLevel" name="riskLevel" class="block w-full bg-gray-50 border-gray-100 rounded-2xl p-4 focus:ring-indigo-500 focus:border-indigo-500 transition-all cursor-pointer font-bold">
+                                    <option value="low" {{ old('riskLevel', $finding->risk_level) == 'low' ? 'selected' : '' }}>LOW RISK</option>
+                                    <option value="medium" {{ old('riskLevel', $finding->risk_level) == 'medium' ? 'selected' : '' }}>MEDIUM RISK</option>
+                                    <option value="high" {{ old('riskLevel', $finding->risk_level) == 'high' ? 'selected' : '' }}>HIGH RISK</option>
+                                </select>
+                                <x-input-error for="riskLevel" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <x-label for="status" value="{{ __('Resolution Status') }}" class="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 ml-1" />
+                                <select id="status" name="status" class="block w-full bg-gray-50 border-gray-100 rounded-2xl p-4 focus:ring-indigo-500 focus:border-indigo-500 transition-all cursor-pointer font-bold">
+                                    <option value="open" {{ old('status', $finding->status) == 'open' ? 'selected' : '' }}>OPEN (Needs Action)</option>
+                                    <option value="resolved" {{ old('status', $finding->status) == 'resolved' ? 'selected' : '' }}>RESOLVED (Fixed)</option>
+                                    <option value="closed" {{ old('status', $finding->status) == 'closed' ? 'selected' : '' }}>CLOSED (Discarded)</option>
+                                </select>
+                                <x-input-error for="status" class="mt-2" />
+                            </div>
                         </div>
 
                         <div>

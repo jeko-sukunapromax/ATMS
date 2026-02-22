@@ -14,7 +14,7 @@ class OfficeController extends Controller
         $this->ihriService = $ihriService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $token = session('ihri_token');
         $offices = [];
@@ -24,10 +24,22 @@ class OfficeController extends Controller
             $offices = $response['data'] ?? $response ?? [];
         }
 
+        // Apply filtering if a search query is provided
+        if ($request->filled('search')) {
+            $search = strtolower($request->input('search'));
+            $offices = array_filter($offices, function ($office) use ($search) {
+                // Check if name or acronym contains the search term
+                $nameMatch = isset($office['name']) && str_contains(strtolower($office['name']), $search);
+                $acronymMatch = isset($office['acronym']) && str_contains(strtolower($office['acronym']), $search);
+                
+                return $nameMatch || $acronymMatch;
+            });
+        }
+
         return view('offices.index', compact('offices'));
     }
 
-    public function show($uuid)
+    public function show($uuid, Request $request)
     {
         $token = session('ihri_token');
         
@@ -37,6 +49,26 @@ class OfficeController extends Controller
 
         $employees = $this->ihriService->getEmployeesByOffice($uuid, $token);
         $employees = $employees['data'] ?? $employees ?? [];
+
+        // Apply filtering if a search query is provided
+        if ($request->filled('search')) {
+            $search = strtolower($request->input('search'));
+            $employees = array_filter($employees, function ($employee) use ($search) {
+                // Determine the name to search on
+                $nameParts = [];
+                if (!empty($employee['first_name'])) $nameParts[] = $employee['first_name'];
+                if (!empty($employee['last_name'])) $nameParts[] = $employee['last_name'];
+                $firstNameLastName = implode(' ', $nameParts);
+                $name = !empty($employee['name']) ? $employee['name'] : $firstNameLastName;
+
+                $position = $employee['position_name'] ?? $employee['position'] ?? '';
+
+                $nameMatch = str_contains(strtolower($name), $search);
+                $positionMatch = str_contains(strtolower($position), $search);
+                
+                return $nameMatch || $positionMatch;
+            });
+        }
 
         return view('offices.show', compact('employees', 'uuid'));
     }

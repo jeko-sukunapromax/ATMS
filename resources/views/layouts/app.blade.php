@@ -20,18 +20,40 @@
     <body class="font-sans antialiased text-gray-900">
         <x-banner />
 
-        <x-sidebar-layout>
-            @if (isset($header))
-                <x-slot name="header">
-                    {{ $header }}
-                </x-slot>
-            @endif
+        @hasanyrole('superadmin|admin|auditor')
+            <x-sidebar-layout>
+                @if (isset($header))
+                    <x-slot name="header">
+                        {{ $header }}
+                    </x-slot>
+                @endif
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
-                {{ $slot }}
-            </main>
-        </x-sidebar-layout>
+                <!-- Page Content -->
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+                    {{ $slot }}
+                </main>
+            </x-sidebar-layout>
+        @else
+            <div class="min-h-screen bg-gray-100">
+                @livewire('navigation-menu')
+
+                <!-- Page Heading -->
+                @if (isset($header))
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endif
+
+                <!-- Page Content -->
+                <main class="py-10">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
+        @endhasanyrole
 
         @stack('modals')
 

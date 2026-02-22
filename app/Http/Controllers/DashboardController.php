@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Audit;
+use App\Models\Finding;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        // Get generic stats
+        $usersCount = User::count();
+        $auditsCount = Audit::count();
+        $findingsCount = Finding::count();
+
+        // Data for Chart (Audits by Status)
+        $pendingAudits = Audit::where('status', 'pending')->count();
+        $ongoingAudits = Audit::where('status', 'ongoing')->count();
+        $completedAudits = Audit::where('status', 'completed')->count();
+
+        $chartData = [
+            'labels' => ['Pending', 'Ongoing', 'Completed'],
+            'data' => [$pendingAudits, $ongoingAudits, $completedAudits]
+        ];
+
+        // Recent Audit Projects (Latest 5)
+        $recentAudits = Audit::orderBy('created_at', 'desc')->take(5)->get();
+
+        // High Risk Findings Alerts (Latest 5 that are open)
+        $highRiskFindings = Finding::with('audit')
+            ->where('risk_level', 'high')
+            ->where('status', 'open')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact('usersCount', 'auditsCount', 'findingsCount', 'chartData', 'recentAudits', 'highRiskFindings'));
+    }
+}

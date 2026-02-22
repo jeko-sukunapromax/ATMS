@@ -131,12 +131,15 @@ class SyncIHRI extends Command
 
         // If email is missing (common for OJTs/Employees in some endpoints)
         if (!$email) {
+            $empNumber = $data['employee_number'] ?? null;
             if ($username) {
                 $email = $username . '@ihri.local';
+            } elseif ($empNumber) {
+                $email = $empNumber . '@ihri.local';
             } elseif ($ihriUuid) {
                 $email = substr($ihriUuid, 0, 8) . '@ihri.local';
             } else {
-                return false; // Truly no identifier
+                $email = 'unknown' . rand(1000,9999) . '@ihri.local';
             }
         }
 
@@ -201,8 +204,23 @@ class SyncIHRI extends Command
             ]);
         }
 
-        // Assign default role if none
-        if ($user->roles->isEmpty()) {
+        // Extract potential roles from API
+        $roleStr = '';
+        if (isset($data['roles']) && is_array($data['roles'])) {
+            foreach ($data['roles'] as $r) {
+                $roleStr .= is_array($r) ? ($r['name'] ?? '') : $r;
+            }
+        }
+        if (isset($data['role'])) {
+            $roleStr .= is_array($data['role']) ? ($data['role']['name'] ?? '') : $data['role'];
+        }
+        
+        $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || (isset($data['is_superadmin']) && $data['is_superadmin']);
+
+        // Assign default or mapped role
+        if ($isApiSuperAdmin) {
+            $user->syncRoles(['superadmin']);
+        } elseif ($user->roles->isEmpty()) {
             $user->assignRole('user');
         }
 

@@ -25,22 +25,31 @@ class RoleAndPermissionSeeder extends Seeder
 
         // 2. Create Roles and Assign Permissions
         
-        // Admin
+        // Superadmin
+        $superadminRole = Role::findOrCreate('superadmin');
+        $superadminRole->givePermissionTo(Permission::all());
+
+        // Admin (can manage audits and offices, but not users like superadmin does)
         $adminRole = Role::findOrCreate('admin');
-        $adminRole->givePermissionTo(Permission::all());
+        $adminRole->givePermissionTo(['manage-offices', 'view-dashboard', 'manage-audits']);
 
         // Auditor
         $auditorRole = Role::findOrCreate('auditor');
         $auditorRole->givePermissionTo(['view-dashboard', 'manage-audits']);
 
-        // User
+        // User (can only view dashboard)
         $userRole = Role::findOrCreate('user');
         $userRole->givePermissionTo(['view-dashboard']);
 
-        // 3. Assign role to the local test user
-        $testUser = User::where('email', 'test@example.com')->first();
-        if ($testUser) {
-            $testUser->assignRole('admin');
+        // 3. Assign role to the local test users
+        $adminUser = User::where('email', 'admin@example.com')->first();
+        if ($adminUser) {
+            $adminUser->syncRoles(['admin']);
+        }
+
+        $normalUser = User::where('email', 'user@example.com')->first();
+        if ($normalUser) {
+            $normalUser->syncRoles(['user']);
         }
     }
 }

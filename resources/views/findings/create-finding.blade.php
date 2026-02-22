@@ -16,6 +16,7 @@
                 <form action="{{ route('findings.store', $audit->id) }}" method="POST">
                     @csrf
                     <div class="space-y-6">
+                        <input type="hidden" name="status" value="open">
                         <div>
                             <label for="title" class="block text-sm font-bold text-gray-700 uppercase tracking-wider">Finding Title</label>
                             <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3" placeholder="e.g., Missing Invoice Documentation" required>

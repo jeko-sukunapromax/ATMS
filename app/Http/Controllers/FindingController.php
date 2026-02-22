@@ -25,6 +25,7 @@ class FindingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'riskLevel' => 'required|in:low,medium,high',
+            'status' => 'required|in:open,resolved,closed',
         ]);
 
         $finding = new Finding();
@@ -32,6 +33,7 @@ class FindingController extends Controller
         $finding->title = $validatedData['title'];
         $finding->description = $validatedData['description'];
         $finding->risk_level = $validatedData['riskLevel'];
+        $finding->status = $validatedData['status'];
         $finding->save();
         return redirect()->route('audit-projects.show', $audit->id)
             ->with('success', 'Finding added successfully.');
@@ -48,12 +50,14 @@ class FindingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'riskLevel' => 'required|in:low,medium,high',
+            'status' => 'required|in:open,resolved,closed',
         ]);
 
         $finding->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'risk_level' => $validatedData['riskLevel'],
+            'status' => $validatedData['status'],
         ]);
 
         return redirect()->route('audit-projects.show', $audit->id)

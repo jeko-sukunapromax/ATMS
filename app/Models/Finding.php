@@ -11,6 +11,7 @@ class Finding extends Model
         'title',
         'description',
         'risk_level',
+        'status',
     ];
 
     /**

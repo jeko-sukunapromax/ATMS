@@ -111,10 +111,16 @@
                                     </div>
                                     <div>
                                         <h4 class="text-xl font-extrabold text-gray-900">{{ $finding->title }}</h4>
-                                        <p class="text-xs font-black uppercase tracking-widest 
-                                            {{ $finding->risk_level == 'high' ? 'text-red-500' : ($finding->risk_level == 'medium' ? 'text-orange-500' : 'text-emerald-500') }}">
-                                            {{ $finding->risk_level }} risk
-                                        </p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <p class="text-xs font-black uppercase tracking-widest 
+                                                {{ $finding->risk_level == 'high' ? 'text-red-500' : ($finding->risk_level == 'medium' ? 'text-orange-500' : 'text-emerald-500') }}">
+                                                {{ $finding->risk_level }} risk
+                                            </p>
+                                            <span class="text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded
+                                                {{ $finding->status == 'resolved' ? 'bg-indigo-100 text-indigo-700' : ($finding->status == 'open' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700') }}">
+                                                {{ $finding->status }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex gap-2">

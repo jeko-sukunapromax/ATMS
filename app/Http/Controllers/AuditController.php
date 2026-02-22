@@ -91,6 +91,14 @@ class AuditController extends Controller
             'status' => 'required|in:pending,ongoing,completed',
         ]);
 
+        if ($validatedData['status'] === 'completed') {
+            $hasOpenRisks = $audit->findings()->where('status', 'open')->exists();
+            
+            if ($hasOpenRisks) {
+                return redirect()->back()->withInput()->withErrors(['status' => 'Cannot mark this audit as completed while there are still OPEN findings. Please resolve or close all findings first.']);
+            }
+        }
+
         $audit->update($validatedData);
 
         return redirect()->route('audit-projects.index')->with('success', 'Audit project updated successfully.');

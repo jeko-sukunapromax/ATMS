@@ -35,29 +35,43 @@
                     <x-sidebar-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                         Dashboard
                     </x-sidebar-link>
+                    @can('manage-offices')
                     <x-sidebar-link href="{{ route('offices.index') }}" :active="request()->routeIs('offices.*')" icon="office">
                         Offices
                     </x-sidebar-link>
+                    @endcan
+                    @can('manage-audits')
                     <x-sidebar-link href="{{ route('audit-projects.index') }}" :active="request()->routeIs('audit-projects.*')" icon="audit">
                         Audit Tracking
                     </x-sidebar-link>
+                    @endcan
+                    @can('manage-users')
                     <x-sidebar-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')" icon="users">
                         User Management
                     </x-sidebar-link>
+                    @endcan
                 </nav>
             </div>
-            <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
-                <a href="{{ route('profile.show') }}" class="flex-shrink-0 group block">
-                    <div class="flex items-center">
-                        <div>
-                            <img class="inline-block h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="">
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-black text-gray-700 group-hover:text-gray-900">{{ Auth::user()->name }}</p>
-                            <p class="text-xs font-bold text-gray-500 group-hover:text-gray-700 uppercase tracking-widest">View profile</p>
-                        </div>
+            <div class="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50/50">
+                <div class="group block w-full bg-white border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
+                    <div class="flex items-center justify-between w-full">
+                        <a href="{{ route('profile.show') }}" class="flex items-center flex-1 min-w-0">
+                            <img class="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
+                            <div class="ml-3 truncate">
+                                <p class="text-sm font-semibold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
+                                <p class="text-xs font-medium text-gray-500 truncate mt-0.5">View Profile</p>
+                            </div>
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" x-data class="ml-2">
+                            @csrf
+                            <button type="submit" @click.prevent="$root.submit();" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                </svg>
+                            </button>
+                        </form>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
 
@@ -87,32 +101,41 @@
                         <x-sidebar-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                             Dashboard
                         </x-sidebar-link>
+                        @can('manage-offices')
                         <x-sidebar-link href="{{ route('offices.index') }}" :active="request()->routeIs('offices.*')" icon="office">
                             Offices
                         </x-sidebar-link>
+                        @endcan
+                        @can('manage-audits')
                         <x-sidebar-link href="{{ route('audit-projects.index') }}" :active="request()->routeIs('audit-projects.*')" icon="audit">
                             Audit Tracking
                         </x-sidebar-link>
+                        @endcan
+                        @can('manage-users')
                         <x-sidebar-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')" icon="users">
                             User Management
                         </x-sidebar-link>
+                        @endcan
                     </nav>
                 </div>
-                <div class="flex-shrink-0 flex border-t border-gray-50 p-6 bg-gray-50/30">
-                    <div class="flex-shrink-0 w-full group block">
-                        <div class="flex items-center">
-                            <div>
-                                <img class="inline-block h-12 w-12 rounded-2xl object-cover shadow-md shadow-gray-200" src="{{ Auth::user()->profile_photo_url }}" alt="">
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-black text-gray-900 truncate w-32 tracking-tight">{{ Auth::user()->name }}</p>
-                                <form method="POST" action="{{ route('logout') }}" x-data>
-                                    @csrf
-                                    <button type="submit" @click.prevent="$root.submit();" class="text-[10px] font-black text-gray-400 hover:text-red-500 uppercase tracking-widest transition-colors duration-200">
-                                        Sign Out
-                                    </button>
-                                </form>
-                            </div>
+                <div class="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50/50">
+                    <div class="group block w-full bg-white border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
+                        <div class="flex items-center justify-between w-full">
+                            <a href="{{ route('profile.show') }}" class="flex items-center flex-1 min-w-0">
+                                <img class="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
+                                <div class="ml-3 truncate">
+                                    <p class="text-sm font-semibold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs font-medium text-gray-500 truncate mt-0.5">View Profile</p>
+                                </div>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" x-data class="ml-2">
+                                @csrf
+                                <button type="submit" @click.prevent="$root.submit();" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                    </svg>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
