@@ -11,7 +11,7 @@ class IHRIService
 
     public function __construct()
     {
-        $this->baseUrl = config('services.ihri.url');
+        $this->baseUrl = config('ihris.api_base_url', 'https://ihris.bayambang.gov.ph/api');
     }
 
     /**
@@ -20,7 +20,8 @@ class IHRIService
     public function login(string $email, string $password)
     {
         try {
-            $response = Http::withoutVerifying()->timeout(180)->post("{$this->baseUrl}/login", [
+            $endpoint = config('ihris.login_endpoint', '/auth/login');
+            $response = Http::withoutVerifying()->timeout(180)->post($this->baseUrl . $endpoint, [
                 'email' => $email,
                 'password' => $password,
             ]);

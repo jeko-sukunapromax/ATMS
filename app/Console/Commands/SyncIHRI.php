@@ -167,14 +167,19 @@ class SyncIHRI extends Command
             $position = $data['plantilla']['name'];
         }
 
-        // Try to find the user by ihri_uuid first, then email
-        $existingUser = null;
-        if ($ihriUuid) {
-            $existingUser = User::where('ihri_uuid', $ihriUuid)->first();
+        $userByUuid = $ihriUuid ? User::where('ihri_uuid', $ihriUuid)->first() : null;
+        $userByEmail = $email ? User::where('email', $email)->first() : null;
+
+        if ($userByUuid && $userByEmail && $userByUuid->id !== $userByEmail->id) {
+            if (str_ends_with($userByUuid->email, '@ihri.local')) {
+                $userByUuid->delete();
+            } else {
+                $userByUuid->update(['ihri_uuid' => null]);
+            }
+            $userByUuid = null;
         }
-        if (!$existingUser && $email) {
-            $existingUser = User::where('email', $email)->first();
-        }
+
+        $existingUser = $userByEmail ?? $userByUuid;
 
         $officeForDb = $officeName ?? $data['office']['name'] ?? null;
 
@@ -215,11 +220,11 @@ class SyncIHRI extends Command
             $roleStr .= is_array($data['role']) ? ($data['role']['name'] ?? '') : $data['role'];
         }
         
-        $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || (isset($data['is_superadmin']) && $data['is_superadmin']);
+        $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || str_contains(strtolower($roleStr), 'admin') || (isset($data['is_superadmin']) && $data['is_superadmin']);
 
         // Assign default or mapped role
         if ($isApiSuperAdmin) {
-            $user->syncRoles(['superadmin']);
+            $user->syncRoles(['admin']);
         } elseif ($user->roles->isEmpty()) {
             $user->assignRole('user');
         }

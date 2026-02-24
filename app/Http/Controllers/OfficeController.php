@@ -72,4 +72,18 @@ class OfficeController extends Controller
 
         return view('offices.show', compact('employees', 'uuid'));
     }
+
+    public function getEmployeeCount($uuid)
+    {
+        $token = session('ihri_token');
+        
+        if (!$token) {
+            return response()->json(['count' => 0]);
+        }
+
+        $employees = $this->ihriService->getEmployeesByOffice($uuid, $token);
+        $employees = $employees['data'] ?? $employees ?? [];
+
+        return response()->json(['count' => count($employees)]);
+    }
 }

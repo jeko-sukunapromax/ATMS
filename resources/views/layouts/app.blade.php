@@ -55,6 +55,8 @@
             </div>
         @endhasanyrole
 
+        <x-logout-modal />
+        
         @stack('modals')
 
         @livewireScripts

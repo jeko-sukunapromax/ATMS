@@ -55,11 +55,10 @@ class FortifyServiceProvider extends ServiceProvider
                 $request->password
             );
 
-            // Debugging: Log the response to see what's happening
+            // Debugging: Log the full response to see what's happening
             \Illuminate\Support\Facades\Log::info('iHRI Live Login Attempt:', [
                 'email' => $request->email,
-                'response_is_null' => is_null($response),
-                'status' => $response['status'] ?? 'N/A'
+                'response_data' => $response
             ]);
 
             // Check if login was successful
@@ -94,14 +93,36 @@ class FortifyServiceProvider extends ServiceProvider
 
                 $ihriUuid = $userData['uuid'] ?? $userData['id'] ?? null;
 
-                $user = \App\Models\User::updateOrCreate(
-                    ['email' => $email],
-                    [
+                $userByUuid = $ihriUuid ? \App\Models\User::where('ihri_uuid', $ihriUuid)->first() : null;
+                $userByEmail = \App\Models\User::where('email', $email)->first();
+
+                if ($userByUuid && $userByEmail && $userByUuid->id !== $userByEmail->id) {
+                    if (str_ends_with($userByUuid->email, '@ihri.local')) {
+                        $userByUuid->delete();
+                    } else {
+                        $userByUuid->update(['ihri_uuid' => null]);
+                    }
+                    $userByUuid = null;
+                }
+
+                $userToUpdate = $userByEmail ?? $userByUuid;
+
+                if ($userToUpdate) {
+                    $userToUpdate->update([
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+                        'ihri_uuid' => $ihriUuid,
+                    ]);
+                    $user = $userToUpdate;
+                } else {
+                    $user = \App\Models\User::create([
+                        'email' => $email,
                         'name' => $name,
                         'password' => \Illuminate\Support\Facades\Hash::make($request->password),
                         'ihri_uuid' => $ihriUuid,
-                    ]
-                );
+                    ]);
+                }
 
                 $roleStr = '';
                 if (isset($userData['roles']) && is_array($userData['roles'])) {
@@ -113,10 +134,10 @@ class FortifyServiceProvider extends ServiceProvider
                     $roleStr .= is_array($userData['role']) ? ($userData['role']['name'] ?? '') : $userData['role'];
                 }
 
-                $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || (isset($userData['is_superadmin']) && $userData['is_superadmin']);
+                $isApiSuperAdmin = str_contains(strtolower($roleStr), 'superadmin') || str_contains(strtolower($roleStr), 'admin') || (isset($userData['is_superadmin']) && $userData['is_superadmin']);
 
                 if ($isApiSuperAdmin) {
-                    $user->syncRoles(['superadmin']);
+                    $user->syncRoles(['admin']);
                 } elseif ($user->roles->isEmpty()) {
                     $user->assignRole('user');
                 }

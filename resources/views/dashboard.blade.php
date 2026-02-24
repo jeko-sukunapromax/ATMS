@@ -8,21 +8,21 @@
         
         <div class="relative z-10 px-10 py-16 sm:px-16 sm:py-20 flex flex-col md:flex-row items-center justify-between">
             <div class="mb-8 md:mb-0">
-                <h2 class="text-xs font-black text-blue-300 uppercase tracking-[0.2em] mb-3">Overview</h2>
-                <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                <h2 class="text-sm font-black text-blue-300 uppercase tracking-[0.2em] mb-4">Overview</h2>
+                <h1 class="text-5xl sm:text-6xl font-black text-white tracking-tight leading-tight">
                     Welcome back, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-yellow-200">{{ explode(' ', Auth::user()->name)[0] }}</span>!
                 </h1>
-                <p class="mt-4 text-sm sm:text-base font-medium text-blue-100/80 max-w-lg leading-relaxed">
+                <p class="mt-5 text-base sm:text-lg font-medium text-blue-100/80 max-w-xl leading-relaxed">
                     Here's what's happening in your Audit Tracking Management System today. Manage projects, track findings, and review statistics.
                 </p>
             </div>
             
             @can('manage-audits')
             <div class="shrink-0 flex items-center justify-center">
-                <a href="{{ route('audit-projects.create') }}" class="group relative inline-flex items-center justify-center px-8 py-4 text-xs font-black tracking-[0.2em] text-indigo-900 bg-white rounded-2xl overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]">
-                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#FFD700] rounded-full group-hover:w-56 group-hover:h-56"></span>
-                    <span class="relative flex items-center gap-2 uppercase">
-                        <svg class="w-5 h-5 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                <a href="{{ route('audit-projects.create') }}" class="group relative inline-flex items-center justify-center px-10 py-5 text-sm font-black tracking-[0.2em] text-indigo-900 bg-white rounded-2xl overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)]">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#FFD700] rounded-full group-hover:w-64 group-hover:h-64"></span>
+                    <span class="relative flex items-center gap-3 uppercase">
+                        <svg class="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                         New Audit
                     </span>
                 </a>
@@ -34,55 +34,40 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <!-- Card 1 -->
-        <div class="group relative bg-white rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-100/50 transition-all duration-500 transform hover:-translate-y-2">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
-            
+        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
             <div class="flex items-center justify-between mb-8">
-                <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 group-hover:scale-110 transition-transform duration-500">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                </div>
-                <div class="px-3 py-1 rounded-full bg-green-50 text-green-600 text-[10px] font-bold tracking-widest uppercase flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Total System Users</h3>
+                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
                     Live
                 </div>
             </div>
             
-            <h3 class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">Total System Users</h3>
-            <p class="text-5xl font-black text-gray-900 tracking-tighter">{{ $usersCount }}</p>
+            <p class="text-6xl font-black text-white tracking-tighter">{{ $usersCount }}</p>
         </div>
 
         <!-- Card 2 -->
-        <div class="group relative bg-white rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-100/50 transition-all duration-500 transform hover:-translate-y-2">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
-            
+        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
             <div class="flex items-center justify-between mb-8">
-                <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform duration-500">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                </div>
-                <div class="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold tracking-widest uppercase">
+                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Audit Projects</h3>
+                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase">
                     Active
                 </div>
             </div>
             
-            <h3 class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">Audit Projects</h3>
-            <p class="text-5xl font-black text-gray-900 tracking-tighter">{{ $auditsCount }}</p>
+            <p class="text-6xl font-black text-white tracking-tighter">{{ $auditsCount }}</p>
         </div>
 
         <!-- Card 3 -->
-        <div class="group relative bg-white rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-100/50 transition-all duration-500 transform hover:-translate-y-2">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
-            
+        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
             <div class="flex items-center justify-between mb-8">
-                <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-200 group-hover:scale-110 transition-transform duration-500">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                </div>
-                <div class="px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[10px] font-bold tracking-widest uppercase">
+                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Total Findings</h3>
+                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase border border-indigo-300/30">
                     Tracked
                 </div>
             </div>
             
-            <h3 class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Findings</h3>
-            <p class="text-5xl font-black text-gray-900 tracking-tighter">{{ $findingsCount }}</p>
+            <p class="text-6xl font-black text-white tracking-tighter">{{ $findingsCount }}</p>
         </div>
     </div>
 
@@ -95,13 +80,13 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-8 pb-6 border-b border-gray-100">
                     <div>
-                        <h3 class="text-xl sm:text-2xl font-black text-gray-900 tracking-tighter">Recent Projects</h3>
-                        <p class="text-[11px] sm:text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">Latest Audit Activities</p>
+                        <h3 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tighter">Recent Projects</h3>
+                        <p class="text-xs sm:text-sm font-bold text-gray-400 mt-1 uppercase tracking-widest">Latest Audit Activities</p>
                     </div>
                     @can('manage-audits')
-                    <a href="{{ route('audit-projects.index') }}" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors flex items-center gap-2">
+                    <a href="{{ route('audit-projects.index') }}" class="px-5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl text-xs font-black uppercase tracking-widest transition-colors flex items-center gap-2">
                         View All
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
                     @endcan
                 </div>
@@ -111,14 +96,14 @@
                     @forelse($recentAudits as $audit)
                         <div class="group flex flex-col sm:flex-row sm:items-center justify-between p-5 border border-gray-100 rounded-[1.5rem] hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-50/50 transition-all duration-300 gap-4 cursor-default">
                             <div class="flex items-center gap-4 w-full sm:w-2/3">
-                                <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                 </div>
                                 <div class="overflow-hidden">
-                                    <p class="font-bold text-sm sm:text-base text-gray-900 truncate" title="{{ $audit->title }}">{{ $audit->title }}</p>
-                                    <p class="text-xs font-semibold text-gray-500 mt-1 truncate flex items-center gap-1">
-                                        <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                        {{ $audit->office_name }}
+                                    <p class="font-bold text-base sm:text-lg text-gray-900 truncate" title="{{ $audit->title }}">{{ $audit->title }}</p>
+                                    <p class="text-sm font-semibold text-gray-500 mt-1 truncate flex items-center gap-1">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                        {{ $officeMap[$audit->office_uuid] ?? 'Unknown Office' }}
                                     </p>
                                 </div>
                             </div>
@@ -133,8 +118,8 @@
                                         default => 'gray'
                                     };
                                 @endphp
-                                <span class="px-4 py-2 bg-{{ $statusColor }}-50 text-{{ $statusColor }}-600 rounded-xl text-[10px] font-black uppercase tracking-[0.1em] border border-{{ $statusColor }}-100 flex items-center gap-2">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-{{ $statusColor }}-500 animate-pulse"></span>
+                                <span class="px-5 py-2.5 bg-{{ $statusColor }}-50 text-{{ $statusColor }}-600 rounded-xl text-xs font-black uppercase tracking-[0.1em] border border-{{ $statusColor }}-100 flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-{{ $statusColor }}-500 animate-pulse"></span>
                                     {{ $audit->status }}
                                 </span>
                             </div>
@@ -177,27 +162,27 @@
                 <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiAvPgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIiAvPgo8L3N2Zz4=')]"></div>
                 
                 <div class="relative z-10 flex items-center justify-between gap-3 mb-6 pb-4 border-b border-red-200/50">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 shadow-md shadow-red-200 flex items-center justify-center shrink-0 text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 shadow-md shadow-red-200 flex items-center justify-center shrink-0 text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </div>
                         <div>
-                            <h3 class="text-sm font-black text-red-900 tracking-tight">Critical Risks</h3>
-                            <p class="text-[9px] font-black text-red-500 mt-0.5 uppercase tracking-widest flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Needs Action</p>
+                            <h3 class="text-base font-black text-red-900 tracking-tight">Critical Risks</h3>
+                            <p class="text-xs font-black text-red-500 mt-1 uppercase tracking-widest flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Needs Action</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="relative z-10 space-y-3">
                     @forelse($highRiskFindings as $finding)
-                        <div class="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-red-100 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-                            <p class="text-[13px] font-bold text-gray-900 line-clamp-2 leading-tight">{{ $finding->title }}</p>
+                        <div class="bg-white/80 backdrop-blur-sm p-5 rounded-2xl border border-red-100 shadow-sm hover:-translate-y-1 transition-transform duration-300">
+                            <p class="text-sm font-bold text-gray-900 line-clamp-2 leading-tight">{{ $finding->title }}</p>
                             @can('manage-audits')
-                            <a href="{{ route('audit-projects.show', $finding->audit_id) }}" class="inline-block mt-2 text-[9px] font-black text-red-600 bg-red-50 px-2 py-1 rounded border border-red-100 uppercase tracking-widest hover:bg-red-600 hover:text-white transition-colors">
+                            <a href="{{ route('audit-projects.show', $finding->audit_id) }}" class="inline-block mt-3 text-xs font-black text-red-600 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 uppercase tracking-widest hover:bg-red-600 hover:text-white transition-colors">
                                 {{ \Illuminate\Support\Str::limit($finding->audit->title ?? 'View Audit', 25) }} &rarr;
                             </a>
                             @else
-                            <p class="mt-2 text-[9px] font-black text-red-600 bg-red-50 px-2 py-1 rounded border border-red-100 uppercase tracking-widest inline-block">
+                            <p class="mt-3 text-xs font-black text-red-600 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 uppercase tracking-widest inline-block">
                                 {{ \Illuminate\Support\Str::limit($finding->audit->title ?? 'Audit Project', 25) }}
                             </p>
                             @endcan

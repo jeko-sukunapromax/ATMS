@@ -1,8 +1,31 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Audit Project') }}
-        </h2>
+        <div class="relative bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+            <!-- Subtle Decorative background element -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-bl-full -z-0 opacity-40 translate-x-10 -translate-y-10"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h2 class="text-3xl font-black text-gray-900 tracking-tight leading-none mb-3">
+                        Create Audit Project
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <div class="flex -space-x-1">
+                            <span class="w-3 h-3 rounded-full bg-indigo-600"></span>
+                            <span class="w-3 h-3 rounded-full bg-indigo-400 opacity-50"></span>
+                        </div>
+                        <p class="text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">Launch New Audit Engagement</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('audit-projects.index') }}" class="group inline-flex items-center gap-2 px-6 py-3 text-[11px] font-black tracking-[0.2em] text-gray-500 hover:text-indigo-600 bg-gray-50 hover:bg-indigo-50 rounded-xl transition-all duration-300 uppercase">
+                        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+                        Back
+                    </a>
+                </div>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">

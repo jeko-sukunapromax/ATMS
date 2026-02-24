@@ -56,20 +56,19 @@
                 <div class="group block w-full bg-white border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
                     <div class="flex items-center justify-between w-full">
                         <a href="{{ route('profile.show') }}" class="flex items-center flex-1 min-w-0">
-                            <img class="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
-                            <div class="ml-3 truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
-                                <p class="text-xs font-medium text-gray-500 truncate mt-0.5">View Profile</p>
+                            <img class="inline-block h-12 w-12 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
+                            <div class="ml-4 truncate">
+                                <p class="text-base font-bold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
+                                <p class="text-sm font-medium text-gray-500 truncate mt-0.5">View Profile</p>
                             </div>
                         </a>
-                        <form method="POST" action="{{ route('logout') }}" x-data class="ml-2">
-                            @csrf
-                            <button type="submit" @click.prevent="$root.submit();" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
+                        <div x-data class="ml-3">
+                            <button type="button" @click="$dispatch('confirm-logout')" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                                 </svg>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,16 +81,16 @@
 
     <!-- Static sidebar for desktop -->
     <div class="hidden md:flex md:flex-shrink-0">
-        <div class="flex flex-col w-72">
+        <div class="flex flex-col w-80">
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex flex-col h-0 flex-1 border-r border-gray-100 bg-white shadow-sm">
                 <!-- Fixed Header -->
-                <div class="flex-shrink-0 pt-8 pb-4 px-8 border-b border-gray-50 bg-white z-10">
-                    <div class="flex items-center space-x-3">
-                        <div class="h-16 w-16 flex items-center justify-center shrink-0">
-                            <x-application-mark class="h-16 w-16" />
+                <div class="flex-shrink-0 pt-10 pb-6 px-10 border-b border-gray-50 bg-white z-10">
+                    <div class="flex items-center space-x-4">
+                        <div class="h-20 w-20 flex items-center justify-center shrink-0">
+                            <x-application-mark class="h-20 w-20" />
                         </div>
-                        <span class="text-sm font-black text-gray-900 tracking-tight uppercase leading-tight">Audit Tracking<br>Management System</span>
+                        <span class="text-base font-black text-gray-900 tracking-tight uppercase leading-tight">Audit Tracking<br>Management System</span>
                     </div>
                 </div>
 
@@ -119,23 +118,22 @@
                     </nav>
                 </div>
                 <div class="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50/50">
-                    <div class="group block w-full bg-white border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
+                    <div class="group block w-full bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
                         <div class="flex items-center justify-between w-full">
                             <a href="{{ route('profile.show') }}" class="flex items-center flex-1 min-w-0">
-                                <img class="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
-                                <div class="ml-3 truncate">
-                                    <p class="text-sm font-semibold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
-                                    <p class="text-xs font-medium text-gray-500 truncate mt-0.5">View Profile</p>
+                                <img class="inline-block h-12 w-12 rounded-full object-cover ring-2 ring-white shadow-sm" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
+                                <div class="ml-4 truncate">
+                                    <p class="text-base font-bold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{{ Auth::user()->name }}</p>
+                                    <p class="text-sm font-medium text-gray-500 truncate mt-0.5">View Profile</p>
                                 </div>
                             </a>
-                            <form method="POST" action="{{ route('logout') }}" x-data class="ml-2">
-                                @csrf
-                                <button type="submit" @click.prevent="$root.submit();" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
+                            <div x-data class="ml-3">
+                                <button type="button" @click="$dispatch('confirm-logout')" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200" title="Sign Out">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                                     </svg>
                                 </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -144,7 +142,7 @@
     </div>
     
     <div class="flex flex-col w-0 flex-1 overflow-hidden">
-        <div class="relative z-10 flex-shrink-0 flex h-20 bg-white border-b border-gray-100 md:hidden">
+        <div class="relative z-10 flex-shrink-0 flex h-24 bg-white border-b border-gray-100 md:hidden">
             <button type="button" class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden" @click="sidebarOpen = true">
                 <span class="sr-only">Open sidebar</span>
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -159,13 +157,13 @@
         </div>
 
         <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-50/50">
-            <div class="py-10">
+            <div class="py-12">
                 @if (isset($header))
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 mb-8">
+                    <div class="max-w-[95rem] mx-auto px-6 sm:px-8 md:px-16 mb-8">
                         {{ $header }}
                     </div>
                 @endif
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+                <div class="max-w-[95rem] mx-auto px-6 sm:px-8 md:px-16">
                     {{ $slot }}
                 </div>
             </div>

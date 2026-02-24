@@ -1,0 +1,71 @@
+{
+    "_comment": "checking for offices kasi kulang",
+    "success": true,
+    "message": "Offices retrieved successfully",
+    "data": [
+        {
+            "uuid": "4c8f5a11-1b2c-493e-8d26-7c9b8e0a1f22",
+            "name": "Office of the Municipal Mayor (OMM)",
+            "acronym": "OMM",
+            "department_head": "Hon. John Doe",
+            "status": "active",
+            "employee_count": 45
+        },
+        {
+            "uuid": "8b2a5d91-3e4b-4c12-9f3a-5d6e7b8a9c01",
+            "name": "Human Resource Management Office (HRMO)",
+            "acronym": "HRMO",
+            "department_head": "Jane Smith",
+            "status": "active",
+            "employee_count": 12
+        },
+        {
+            "uuid": "5e7c3b90-8d1e-4b2a-9c4f-6a7b8c9d0e12",
+            "name": "Municipal Accounting Office (MACO)",
+            "acronym": "MACO",
+            "department_head": "Maria Santos, CPA",
+            "status": "active",
+            "employee_count": 18
+        },
+        {
+            "uuid": "2a1b9c3d-4e5f-6g7h-8i9j-0k1l2m3n4o5p",
+            "name": "Municipal Treasurer's Office (MTO)",
+            "acronym": "MTO",
+            "department_head": "Roberto Cruz",
+            "status": "active",
+            "employee_count": 22
+        },
+        {
+            "uuid": "9f8e7d6c-5b4a-3z2y-1x0w-vutsrqponmlk",
+            "name": "Municipal Engineering Office (MEO)",
+            "acronym": "MEO",
+            "department_head": "Engr. Pedro Reyes",
+            "status": "active",
+            "employee_count": 35
+        },
+        {
+            "uuid": "1q2w3e4r-5t6y-7u8i-9o0p-asdfghjklzxc",
+            "name": "Municipal Health Office (MHO)",
+            "acronym": "MHO",
+            "department_head": "Dr. Juan dela Cruz",
+            "status": "active",
+            "employee_count": 89
+        },
+        {
+            "uuid": "m1n2b3v4-c5x6-z7l8-k9j0-h1g2f3d4s5a6",
+            "name": "Municipal Planning and Development Office (MPDO)",
+            "acronym": "MPDO",
+            "department_head": "Arch. Maria Clara",
+            "status": "active",
+            "employee_count": 15
+        },
+        {
+            "uuid": "p0o9i8u7-y6t5-r4e3-w2q1-asdfghjklzxc",
+            "name": "Municipal Agriculture Office (MAO)",
+            "acronym": "MAO",
+            "department_head": "Jose Rizal",
+            "status": "active",
+            "employee_count": 27
+        }
+    ]
+}

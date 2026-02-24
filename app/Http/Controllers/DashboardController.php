@@ -9,8 +9,17 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected $ihriService;
+
+    public function __construct(\App\Services\IHRIService $ihriService)
+    {
+        $this->ihriService = $ihriService;
+    }
+
     public function index()
     {
+        $token = session('ihri_token');
+        
         // Get generic stats
         $usersCount = User::count();
         $auditsCount = Audit::count();
@@ -37,6 +46,15 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboard', compact('usersCount', 'auditsCount', 'findingsCount', 'chartData', 'recentAudits', 'highRiskFindings'));
+        $response = $this->ihriService->getOffices($token);
+        $offices = $response['data'] ?? $response ?? [];
+        $officeMap = [];
+        foreach ($offices as $office) {
+            if (isset($office['uuid'])) {
+                $officeMap[$office['uuid']] = $office['name'] ?? 'Unknown';
+            }
+        }
+
+        return view('dashboard', compact('usersCount', 'auditsCount', 'findingsCount', 'chartData', 'recentAudits', 'highRiskFindings', 'officeMap'));
     }
 }

@@ -1,8 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Offices Management') }}
-        </h2>
+        <div class="relative bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+            <!-- Subtle Decorative background element -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-full -z-0 opacity-40 translate-x-10 -translate-y-10"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h2 class="text-3xl font-black text-gray-900 tracking-tight leading-none mb-3">
+                        Offices Management
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <div class="flex -space-x-1">
+                            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-400 opacity-50"></span>
+                        </div>
+                        <p class="text-[11px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">Live Organizational Structure</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -33,21 +49,26 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @forelse($offices as $office)
-                        <div class="bg-gray-50 border border-gray-100 rounded-xl p-6 hover:shadow-md transition-shadow duration-300">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="bg-indigo-100 p-3 rounded-lg">
-                                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        <div class="bg-white border border-gray-100 rounded-3xl p-8 hover:shadow-2xl hover:shadow-indigo-50 hover:border-indigo-100 transition-all duration-300 flex flex-col items-center justify-center text-center min-h-[220px]">
+                            <h4 class="text-xl font-black text-gray-900 mb-2 leading-tight">{{ $office['name'] ?? 'Unknown Office' }}</h4>
+                            
+                            <p class="text-sm font-bold text-gray-400 mb-8 uppercase tracking-widest"
+                               x-data="{ count: '...' }" 
+                               x-init="fetch('{{ route('offices.employee-count', $office['uuid'] ?? 0) }}')
+                                           .then(res => res.json())
+                                           .then(data => count = data.count)
+                                           .catch(() => count = '?')">
+                                <span x-text="count"></span> Employees
+                            </p>
+
+                            <div class="mt-auto">
+                                <a href="{{ route('offices.show', $office['uuid'] ?? 0) }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-black tracking-widest uppercase text-xs transition-colors group">
+                                    View Employees
+                                    <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                                     </svg>
-                                </div>
+                                </a>
                             </div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-6">{{ $office['name'] ?? 'Unknown Office' }}</h4>
-                            <a href="{{ route('offices.show', $office['uuid'] ?? 0) }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium tracking-wide">
-                                View Employees
-                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                </svg>
-                            </a>
                         </div>
                     @empty
                         <div class="col-span-full py-12 text-center">

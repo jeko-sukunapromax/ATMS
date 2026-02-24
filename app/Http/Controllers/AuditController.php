@@ -18,8 +18,21 @@ class AuditController extends Controller
 
     public function index()
     {
+        $token = session('ihri_token');
         $audits = Audit::with('auditor')->latest()->paginate(10);
-        return view('audits.index', compact('audits'));
+        
+        $response = $this->ihriService->getOffices($token);
+        $offices = $response['data'] ?? $response ?? [];
+        
+        // Create a lookup map for faster access in the view
+        $officeMap = [];
+        foreach ($offices as $office) {
+            if (isset($office['uuid'])) {
+                $officeMap[$office['uuid']] = $office['name'] ?? 'Unknown';
+            }
+        }
+
+        return view('audits.index', compact('audits', 'officeMap'));
     }
 
     public function create()
@@ -27,7 +40,7 @@ class AuditController extends Controller
         $token = session('ihri_token');
         $offices = [];
 
-        if ($token) {
+        if (true) {
             $response = $this->ihriService->getOffices($token);
             $offices = $response['data'] ?? $response ?? [];
         }

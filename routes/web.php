@@ -16,6 +16,10 @@ Route::middleware([
     Route::resource('offices', \App\Http\Controllers\OfficeController::class)
         ->only(['index', 'show'])
         ->middleware('can:manage-offices');
+
+    Route::get('offices/{uuid}/employee-count', [\App\Http\Controllers\OfficeController::class, 'getEmployeeCount'])
+        ->name('offices.employee-count')
+        ->middleware('can:manage-offices');
     
     // Audit Tracking Routes (kebab-case)
     Route::resource('audit-projects', \App\Http\Controllers\AuditController::class)->parameters([
