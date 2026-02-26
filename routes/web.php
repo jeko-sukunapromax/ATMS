@@ -14,7 +14,6 @@ Route::middleware([
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('offices', \App\Http\Controllers\OfficeController::class)
-        ->only(['index', 'show'])
         ->middleware('can:manage-offices');
 
     Route::get('offices/{uuid}/employee-count', [\App\Http\Controllers\OfficeController::class, 'getEmployeeCount'])
@@ -43,7 +42,10 @@ Route::middleware([
     // User Management Routes
     Route::middleware('can:manage-users')->group(function () {
         Route::get('user-management', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+        Route::get('user-management/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
+        Route::post('user-management', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
         Route::post('user-management/sync', [\App\Http\Controllers\UserController::class, 'sync'])->name('users.sync');
+        Route::get('user-management/{user}', [\App\Http\Controllers\UserController::class, 'show'])->name('users.show');
         Route::get('user-management/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
         Route::put('user-management/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
         Route::delete('user-management/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');

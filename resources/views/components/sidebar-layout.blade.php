@@ -157,9 +157,9 @@
         </div>
 
         <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-50/50">
-            <div class="py-12">
+            <div class="{{ isset($header) ? 'pt-0 pb-12' : 'py-12' }}">
                 @if (isset($header))
-                    <div class="max-w-[95rem] mx-auto px-6 sm:px-8 md:px-16 mb-8">
+                    <div class="max-w-[95rem] mx-auto px-6 sm:px-8 md:px-16 mb-0">
                         {{ $header }}
                     </div>
                 @endif

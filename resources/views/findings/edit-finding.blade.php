@@ -1,11 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Finding') }}
-        </h2>
+        <div class="relative bg-indigo-600 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-indigo-200 overflow-hidden">
+            <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-blue-400 rounded-full mix-blend-screen filter blur-[80px] opacity-20"></div>
+            <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[150%] bg-indigo-400 rounded-full mix-blend-screen filter blur-[80px] opacity-20"></div>
+
+            <div class="relative z-10 flex items-center justify-center text-center">
+                <h2 class="text-3xl font-black text-white tracking-tight leading-none">
+                    {{ __('Edit Finding') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-0 pb-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-2xl shadow-indigo-100 sm:rounded-3xl p-8 border border-gray-50">
                 <form action="{{ route('findings.update', [$audit->id, $finding->id]) }}" method="POST">

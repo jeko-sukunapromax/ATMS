@@ -3,31 +3,19 @@
         $officeName = count($employees) > 0 ? ($employees[0]['office_name'] ?? 'Department') : 'Department Directory';
     @endphp
     <!-- Page Header (Premium Gradient) -->
-    <div class="relative bg-gradient-to-r from-slate-900 via-indigo-900 to-slate-900 rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl shadow-indigo-900/20">
-        <!-- Decorative blobs -->
-        <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob"></div>
-        <div class="absolute inset-0 bg-[#000] bg-opacity-20 backdrop-blur-[2px]"></div>
+    <div class="relative bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-800 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-blue-900/20 overflow-hidden mb-0">
+        <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[150%] bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute inset-0 bg-[#000] bg-opacity-10 backdrop-blur-[2px]"></div>
+
+        <a href="{{ route('offices.index') }}" class="absolute top-6 left-6 w-12 h-12 rounded-full border-2 border-white/30 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all z-20" title="Back">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+        </a>
         
-        <div class="relative z-10 px-10 py-12 sm:px-16 sm:py-16 flex flex-col md:flex-row items-center justify-between">
-            <div class="mb-6 md:mb-0">
-                <div class="flex items-center gap-4 mb-3">
-                    <a href="{{ route('offices.index') }}" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white backdrop-blur-md transition-colors border border-white/20" title="Back to Directory">
-                        <svg class="w-4 h-4 pr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
-                    </a>
-                    <h2 class="text-xs font-black text-indigo-300 uppercase tracking-[0.2em]">Office Roster</h2>
-                </div>
-                <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                    {{ $officeName }}
-                </h1>
-                <p class="mt-3 text-sm font-medium text-indigo-100/80 max-w-md leading-relaxed">
-                    View the full employee roster and organizational details for this specific office.
-                </p>
-            </div>
-            
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 flex flex-col items-center justify-center shadow-xl min-w-[140px]">
-                <h3 class="text-4xl font-black text-white tracking-tighter text-center">{{ count($employees) }}</h3>
-                <p class="text-[10px] font-black text-indigo-200 mt-2 uppercase tracking-widest text-center">Total Staff</p>
-            </div>
+        <div class="relative z-10 flex flex-col items-center justify-center gap-4 text-center">
+            <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-none">
+                {{ $officeName }}
+            </h1>
         </div>
     </div>
 
@@ -37,8 +25,8 @@
         <!-- Search and Filter Bar -->
         <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-6">
             <div>
-                <h3 class="text-xl font-bold text-gray-900">Registered Employees</h3>
-                <p class="text-sm text-gray-500 mt-1">Found {{ count($employees) }} staff members</p>
+                <h3 class="text-xl font-black text-gray-900">Registered Employees</h3>
+                <p class="text-sm font-bold text-gray-600 mt-1">Found {{ count($employees) }} staff members</p>
             </div>
             
             <form method="GET" action="{{ route('offices.show', $uuid) }}" class="relative w-full md:w-1/2 lg:w-1/3">

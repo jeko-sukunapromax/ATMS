@@ -16,10 +16,23 @@ class AuditController extends Controller
         $this->ihriService = $ihriService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $token = session('ihri_token');
-        $audits = Audit::with('auditor')->latest()->paginate(10);
+        
+        $query = Audit::with('auditor');
+
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->input('search') . '%');
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $audits = $query->latest()->paginate(10)->withQueryString();
         
         $response = $this->ihriService->getOffices($token);
         $offices = $response['data'] ?? $response ?? [];

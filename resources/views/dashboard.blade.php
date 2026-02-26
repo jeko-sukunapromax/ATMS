@@ -1,20 +1,17 @@
 <x-app-layout>
     <!-- Page Header (Premium Gradient) -->
-    <div class="relative bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-800 rounded-[2.5rem] overflow-hidden mb-12 shadow-2xl shadow-blue-900/20">
+    <div class="relative bg-indigo-600 rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl shadow-indigo-200">
         <!-- Decorative blobs -->
         <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[150%] bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob"></div>
         <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[150%] bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-2000"></div>
         <div class="absolute inset-0 bg-[#000] bg-opacity-10 backdrop-blur-[2px]"></div>
+
         
         <div class="relative z-10 px-10 py-16 sm:px-16 sm:py-20 flex flex-col md:flex-row items-center justify-between">
             <div class="mb-8 md:mb-0">
-                <h2 class="text-sm font-black text-blue-300 uppercase tracking-[0.2em] mb-4">Overview</h2>
                 <h1 class="text-5xl sm:text-6xl font-black text-white tracking-tight leading-tight">
                     Welcome back, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-yellow-200">{{ explode(' ', Auth::user()->name)[0] }}</span>!
                 </h1>
-                <p class="mt-5 text-base sm:text-lg font-medium text-blue-100/80 max-w-xl leading-relaxed">
-                    Here's what's happening in your Audit Tracking Management System today. Manage projects, track findings, and review statistics.
-                </p>
             </div>
             
             @can('manage-audits')
@@ -32,42 +29,53 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
         <!-- Card 1 -->
-        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Total System Users</h3>
-                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
-                    Live
-                </div>
+        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-lg border border-gray-100 transition hover:-translate-y-1 hover:shadow-xl">
+            <div class="text-center mb-6">
+                <h3 class="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Total System Users</h3>
             </div>
-            
-            <p class="text-6xl font-black text-white tracking-tighter">{{ $usersCount }}</p>
+            <p class="text-6xl font-black text-indigo-600 tracking-tighter text-center">{{ $usersCount }}</p>
         </div>
 
         <!-- Card 2 -->
-        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Audit Projects</h3>
-                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase">
-                    Active
-                </div>
+        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-lg border border-gray-100 transition hover:-translate-y-1 hover:shadow-xl">
+            <div class="text-center mb-6">
+                <h3 class="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Audit Projects</h3>
             </div>
-            
-            <p class="text-6xl font-black text-white tracking-tighter">{{ $auditsCount }}</p>
+            <p class="text-6xl font-black text-indigo-600 tracking-tighter text-center">{{ $auditsCount }}</p>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-indigo-600 rounded-3xl p-8 sm:p-10 shadow-lg border border-indigo-700 transition hover:-translate-y-1">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-sm font-black text-indigo-200 uppercase tracking-[0.2em]">Total Findings</h3>
-                <div class="px-4 py-1.5 rounded-full bg-indigo-500/50 text-white text-xs font-black tracking-widest uppercase border border-indigo-300/30">
-                    Tracked
-                </div>
+        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-lg border border-gray-100 transition hover:-translate-y-1 hover:shadow-xl">
+            <div class="text-center mb-6">
+                <h3 class="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Total Findings</h3>
             </div>
-            
-            <p class="text-6xl font-black text-white tracking-tighter">{{ $findingsCount }}</p>
+            <p class="text-6xl font-black text-indigo-600 tracking-tighter text-center">{{ $findingsCount }}</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mb-10">
+        <h3 class="text-lg font-black text-gray-900 uppercase tracking-widest mb-5">Quick Actions</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <a href="{{ route('audit-projects.index') }}" class="group flex flex-col items-center text-center bg-indigo-600 rounded-2xl px-7 py-8 shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all">
+                <svg class="w-10 h-10 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <p class="text-lg font-bold text-white">Manage Audits</p>
+                <p class="text-sm text-indigo-200 font-medium mt-1">View & track audit projects</p>
+            </a>
+
+            <a href="{{ route('offices.index') }}" class="group flex flex-col items-center text-center bg-indigo-600 rounded-2xl px-7 py-8 shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all">
+                <svg class="w-10 h-10 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <p class="text-lg font-bold text-white">Manage Offices</p>
+                <p class="text-sm text-indigo-200 font-medium mt-1">View & edit office directory</p>
+            </a>
+
+            <a href="{{ route('users.index') }}" class="group flex flex-col items-center text-center bg-indigo-600 rounded-2xl px-7 py-8 shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all">
+                <svg class="w-10 h-10 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <p class="text-lg font-bold text-white">Manage Users</p>
+                <p class="text-sm text-indigo-200 font-medium mt-1">User access & permissions</p>
+            </a>
         </div>
     </div>
 
@@ -112,14 +120,14 @@
                             <div class="sm:shrink-0 flex items-center mt-2 sm:mt-0">
                                 @php
                                     $statusColor = match($audit->status) {
-                                        'pending' => 'orange',
-                                        'ongoing' => 'blue',
                                         'completed' => 'green',
+                                        'ongoing' => 'blue',
+                                        'pending' => 'orange',
                                         default => 'gray'
                                     };
                                 @endphp
                                 <span class="px-5 py-2.5 bg-{{ $statusColor }}-50 text-{{ $statusColor }}-600 rounded-xl text-xs font-black uppercase tracking-[0.1em] border border-{{ $statusColor }}-100 flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-{{ $statusColor }}-500 animate-pulse"></span>
+                                    <span class="w-2 h-2 rounded-full bg-{{ $statusColor }}-500 {{ $audit->status === 'ongoing' ? 'animate-pulse' : '' }}"></span>
                                     {{ $audit->status }}
                                 </span>
                             </div>

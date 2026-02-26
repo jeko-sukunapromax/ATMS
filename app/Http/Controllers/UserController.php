@@ -46,11 +46,21 @@ class UserController extends Controller
             $query->where('office', $request->input('office'));
         }
 
+        // Filter by source (local = no ihri_uuid, synced = has ihri_uuid)
+        if ($request->filled('source')) {
+            if ($request->input('source') === 'local') {
+                $query->whereNull('ihri_uuid');
+            } elseif ($request->input('source') === 'synced') {
+                $query->whereNotNull('ihri_uuid');
+            }
+        }
+
         $permanentUsers = $query->orderBy('name')->paginate(10)->withQueryString();
 
-        // Get unique positions and offices for dropdowns
+        // Get unique positions for dropdown
         $positions = \App\Models\User::whereNotNull('position')->distinct()->pluck('position');
-        $offices = \App\Models\User::whereNotNull('office')->distinct()->pluck('office');
+        // Get offices from the Office model
+        $offices = \App\Models\Office::orderBy('name')->get();
 
         return view('users.user-management', compact('permanentUsers', 'positions', 'offices'));
     }
@@ -65,6 +75,50 @@ class UserController extends Controller
         \App\Jobs\SyncIHRIJob::dispatch($token);
 
         return redirect()->back()->with('success', 'Syncing process started in the background (32 offices). This may take 2-5 minutes. You can refresh this page later to see the updated list.');
+    }
+
+    /**
+     * Show the form for creating a new user.
+     */
+    public function create()
+    {
+        $roles = \Spatie\Permission\Models\Role::pluck('name', 'name');
+        return view('users.create', compact('roles'));
+    }
+
+    /**
+     * Store a newly created user in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,name',
+            'position' => 'nullable|string|max:255',
+            'office' => 'nullable|string|max:255',
+        ]);
+
+        $user = \App\Models\User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+            'position' => $validated['position'] ?? null,
+            'office' => $validated['office'] ?? null,
+        ]);
+
+        $user->assignRole($validated['role']);
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    }
+
+    /**
+     * Display the specified user.
+     */
+    public function show(\App\Models\User $user)
+    {
+        return view('users.show', compact('user'));
     }
 
     /**
